@@ -1,29 +1,38 @@
 import * as core from '@serverless-devs/core';
-import fs from "fs-extra";
-import path from "path";
+import fs from 'fs-extra';
+import path from 'path';
 import os from 'os';
 import yaml from 'js-yaml';
-import Pop from "@alicloud/pop-core";
-import { throwProcessedPopPermissionError } from "../src/lib/error";
-import {
-  DEFAULT_CLIENT_TIMEOUT,
-} from "./mock-data";
-import { VpcConfig } from "../src/lib/resource/vpc";
-import { LogConfig } from "../src/lib/resource/sls";
-import { NasConfig } from "../src/lib/resource/nas";
+import Pop from '@alicloud/pop-core';
+import { throwProcessedPopPermissionError } from '../src/lib/error';
+import { DEFAULT_CLIENT_TIMEOUT } from './mock-data';
+import { VpcConfig } from '../src/lib/resource/vpc';
+import { LogConfig } from '../src/lib/resource/sls';
+import { NasConfig } from '../src/lib/resource/nas';
 import Log from '@alicloud/log';
-
 
 const REQUEST_OPTION = {
   method: 'POST',
 };
 
-export async function setupIntegrationTestEnv(access: string, accoundId: string, accessKeyId: string, accessKetSecret: string, cwd: string, templateFile: string) {
-  await core.setKnownCredential({
-    AccountID: accoundId,
-    AccessKeyID: accessKeyId,
-    AccessKeySecret: accessKetSecret,
-  }, access);
+export async function setupIntegrationTestEnv(
+  access: string,
+  accoundId: string,
+  accessKeyId: string,
+  accessKetSecret: string,
+  cwd: string,
+  templateFile: string,
+) {
+  await core.setKnownCredential(
+    {
+      AccountID: accoundId,
+      AccessKeyID: accessKeyId,
+      AccessKeySecret: accessKetSecret,
+    },
+    access,
+  );
+  console.log('12345end');
+
   process.chdir(cwd);
   process.env.templateFile = templateFile;
 }
@@ -33,7 +42,10 @@ export async function cleanupIntegrationTestEnv(access: string, cwd: string) {
   const accessFileInfo = yaml.load(fs.readFileSync(accessFile, 'utf8') || '{}');
   if (accessFileInfo[access]) {
     delete accessFileInfo[access];
-    fs.writeFileSync(accessFile, Object.keys(accessFileInfo).length > 0 ? yaml.dump(accessFileInfo) : '');
+    fs.writeFileSync(
+      accessFile,
+      Object.keys(accessFileInfo).length > 0 ? yaml.dump(accessFileInfo) : '',
+    );
   }
   await fs.remove(path.join(cwd, '.s'));
 }
@@ -42,7 +54,12 @@ export function genStateIdOfService(serviceName: string, region: string): string
   return `${process.env.AccountID}-${region}-${serviceName}`;
 }
 
-async function getPopClient(accessKeyId: string, accessKeySecret: string, endpoint: string, apiVersion: string): Promise<Pop> {
+async function getPopClient(
+  accessKeyId: string,
+  accessKeySecret: string,
+  endpoint: string,
+  apiVersion: string,
+): Promise<Pop> {
   const pop = new Pop({
     endpoint,
     apiVersion,
@@ -66,8 +83,17 @@ async function getPopClient(accessKeyId: string, accessKeySecret: string, endpoi
   return pop;
 }
 
-export async function removeNas(access: string, yamlPath: string, region: string, serviceName: string, nasConfig: NasConfig, vpcConfig: VpcConfig) {
-  const fileSystemId: string = extractFileSystemIdFromMountTargetDomain(nasConfig.mountPoints[0].serverAddr);
+export async function removeNas(
+  access: string,
+  yamlPath: string,
+  region: string,
+  serviceName: string,
+  nasConfig: NasConfig,
+  vpcConfig: VpcConfig,
+) {
+  const fileSystemId: string = extractFileSystemIdFromMountTargetDomain(
+    nasConfig.mountPoints[0].serverAddr,
+  );
   const inputs: any = {
     appName: 'app-nas',
     project: {
@@ -100,9 +126,24 @@ function extractFileSystemIdFromMountTargetDomain(mountTargetDomain: string): st
   return fileSystemId;
 }
 
-export async function removeVpc(accessKeyId: string, accessKeySecret: string, region: string, vpcConfig: VpcConfig) {
-  const vpcClient = await getPopClient(accessKeyId, accessKeySecret, 'https://vpc.aliyuncs.com', '2016-04-28');
-  const ecsClient = await getPopClient(accessKeyId, accessKeySecret, 'https://ecs.aliyuncs.com', '2014-05-26');
+export async function removeVpc(
+  accessKeyId: string,
+  accessKeySecret: string,
+  region: string,
+  vpcConfig: VpcConfig,
+) {
+  const vpcClient = await getPopClient(
+    accessKeyId,
+    accessKeySecret,
+    'https://vpc.aliyuncs.com',
+    '2016-04-28',
+  );
+  const ecsClient = await getPopClient(
+    accessKeyId,
+    accessKeySecret,
+    'https://ecs.aliyuncs.com',
+    '2014-05-26',
+  );
   // remove securityGroupId
   await ecsClient.request(
     'DeleteSecurityGroup',
@@ -134,7 +175,12 @@ export async function removeVpc(accessKeyId: string, accessKeySecret: string, re
   );
 }
 
-export async function removeSls(accessKeyId: string, accessKeySecret: string, region: string, logConfig: LogConfig) {
+export async function removeSls(
+  accessKeyId: string,
+  accessKeySecret: string,
+  region: string,
+  logConfig: LogConfig,
+) {
   const logClient = new Log({
     region: region,
     accessKeyId: accessKeyId,
@@ -144,5 +190,3 @@ export async function removeSls(accessKeyId: string, accessKeySecret: string, re
   await logClient.deleteLogStore(logConfig.project, logConfig.logstore);
   // await logClient.deleteProject(logConfig.project);
 }
-
-
