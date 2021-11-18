@@ -319,19 +319,22 @@ export default class FcDeployComponent {
         ) {
           continue;
         }
+        console.log(322);
         const { remoteConfig } = await this.fcTriggers[i].GetRemoteInfo(
           'trigger',
           this.fcTriggers[i].serviceName,
           this.fcTriggers[i].functionName,
           this.fcTriggers[i].name,
         );
+        console.log(329);
         this.fcTriggers[i].statefulConfig = remoteConfig;
         this.fcTriggers[i].upgradeStatefulConfig();
+        console.log(332);
       }
     }
-
+    console.log(335);
     await this.setStatefulConfig();
-    console.log(334);
+    console.log(337);
 
     // deploy custom domain
     let hasAutoCustomDomainNameInDomains = false;
