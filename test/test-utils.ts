@@ -23,6 +23,18 @@ export async function setupIntegrationTestEnv(
   cwd: string,
   templateFile: string,
 ) {
+  console.log('start setupIntegrationTestEnv');
+  console.log(
+    JSON.stringify({
+      AccountID: accoundId,
+      AccessKeyID: accessKeyId,
+      AccessKeySecret: accessKetSecret,
+      access,
+    }),
+    null,
+    2,
+  );
+
   await core.setKnownCredential(
     {
       AccountID: accoundId,
