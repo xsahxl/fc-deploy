@@ -139,10 +139,14 @@ export default abstract class FcDeploy<T> extends IInputsBase {
     console.log(139);
 
     this.logger.info(StdoutFormatter.stdoutFormatter.check(type, resourceName));
+    console.log(142);
+
     let remoteConfig: T;
     try {
+      console.log(146);
+
       const info: any = await fcInfoComponentIns.info(fcInfoComponentInputs);
-      console.log(145);
+      console.log(149);
 
       if (type === 'trigger') {
         remoteConfig = info?.triggers[0];
