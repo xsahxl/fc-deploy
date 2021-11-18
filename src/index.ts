@@ -278,46 +278,6 @@ export default class FcDeployComponent {
         }
       }
     }
-    // set stateful config
-    if (needDeployService && this.fcService) {
-      const { remoteConfig } = await this.fcService.GetRemoteInfo(
-        'service',
-        this.fcService.name,
-        undefined,
-        undefined,
-      );
-      this.fcService.statefulConfig = remoteConfig;
-      this.fcService.upgradeStatefulConfig();
-    }
-    if (needDeployFunction && this.fcFunction) {
-      const { remoteConfig } = await this.fcFunction.GetRemoteInfo(
-        'function',
-        this.fcFunction.serviceName,
-        this.fcFunction.name,
-        undefined,
-      );
-      this.fcFunction.statefulConfig = remoteConfig;
-      this.fcFunction.upgradeStatefulConfig();
-    }
-    // triggers
-    if (needDeployTrigger && !_.isEmpty(this.fcTriggers)) {
-      for (let i = 0; i < this.fcTriggers.length; i++) {
-        if (
-          !_.isEmpty(targetTriggerNameArr) &&
-          targetTriggerNameArr.includes(this.fcTriggers[i].name)
-        ) {
-          continue;
-        }
-        const { remoteConfig } = await this.fcTriggers[i].GetRemoteInfo(
-          'trigger',
-          this.fcTriggers[i].serviceName,
-          this.fcTriggers[i].functionName,
-          this.fcTriggers[i].name,
-        );
-        this.fcTriggers[i].statefulConfig = remoteConfig;
-        this.fcTriggers[i].upgradeStatefulConfig();
-      }
-    }
 
     await this.setStatefulConfig();
 
