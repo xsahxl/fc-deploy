@@ -24,16 +24,12 @@ export async function setupIntegrationTestEnv(
   templateFile: string,
 ) {
   console.log('start setupIntegrationTestEnv');
-  console.log(
-    JSON.stringify({
-      AccountID: accoundId,
-      AccessKeyID: accessKeyId,
-      AccessKeySecret: accessKetSecret,
-      access,
-    }),
-    null,
-    2,
-  );
+  console.log('access', access);
+  console.log('accoundId', accoundId);
+  console.log('accessKeyId', accessKeyId);
+  console.log('accessKetSecret', accessKetSecret);
+  console.log('cwd', cwd);
+  console.log('templateFile', templateFile);
 
   await core.setKnownCredential(
     {
@@ -43,7 +39,7 @@ export async function setupIntegrationTestEnv(
     },
     access,
   );
-  console.log('12345end');
+  console.log('end====');
 
   process.chdir(cwd);
   process.env.templateFile = templateFile;
