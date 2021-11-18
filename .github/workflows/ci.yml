@@ -28,10 +28,6 @@ jobs:
       - name: NPM install s
         run: |
           npm install -g @serverless-devs/s
-      - name: NPM run lint
-        run: |
-          npm run fix
-          npm run lint
       - name: NPM run test-integration
         env:
           AccountID: ${{secrets.ACCOUNTID}}
