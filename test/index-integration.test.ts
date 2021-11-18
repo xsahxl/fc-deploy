@@ -12,12 +12,10 @@ import {
   // @ts-ignore
 } from './mock-data';
 import {
-  cleanupIntegrationTestEnv,
   setupIntegrationTestEnv,
   // @ts-ignore
 } from './test-utils';
 import * as _ from 'lodash';
-import fs from 'fs-extra';
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
