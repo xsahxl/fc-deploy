@@ -112,14 +112,11 @@ export default abstract class FcDeploy<T> extends IInputsBase {
     } else if (type === 'trigger') {
       resourceName = triggerName;
     }
-    console.log(92);
-
     // Get config info via fc-info component
     const profileOfFcInfo = replaceProjectName(
       this.serverlessProfile,
       `${this.serverlessProfile?.project.projectName}-fc-info-project`,
     );
-    console.log(96);
 
     const fcInfo: FcInfo = new FcInfo(
       serviceName,
@@ -130,20 +127,18 @@ export default abstract class FcDeploy<T> extends IInputsBase {
       functionName,
       triggerName ? [triggerName] : null,
     );
-    console.log(99);
 
     const fcInfoComponentInputs: any = await fcInfo.genComponentInputs('fc-info');
-    console.log(103);
 
     const fcInfoComponentIns: any = await core.load('devsapp/fc-info');
-    console.log(139);
 
     this.logger.info(StdoutFormatter.stdoutFormatter.check(type, resourceName));
-    console.log(142);
 
     let remoteConfig: T;
     try {
       console.log(146);
+
+      console.log(JSON.stringify(fcInfoComponentInputs, null, 2));
 
       const info: any = await fcInfoComponentIns.info(fcInfoComponentInputs);
       console.log(149);
