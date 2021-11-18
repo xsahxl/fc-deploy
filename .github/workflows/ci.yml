@@ -3,7 +3,7 @@ name: Serverless Devs Project CI
 on:
   push:
     branches:
-      - master
+      - normal
   pull_request:
     branches:
       - master
@@ -17,16 +17,17 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ./node_modules
+          key: key
       - name: NPM install
         run: |
           npm install
       - name: NPM install s
         run: |
           npm install -g @serverless-devs/s
-      - name: NPM run lint
-        run: |
-          npm run fix
-          npm run lint
       - name: NPM run test-integration
         env:
           AccountID: ${{secrets.ACCOUNTID}}
