@@ -188,6 +188,8 @@ export default class FcDeployComponent {
       needDeployTrigger = existTriggersUseLocal;
     }
 
+    console.log(191);
+
     const profileOfFcBase = replaceProjectName(
       this.serverlessProfile,
       `${this.serverlessProfile?.project.projectName}-fc-base-project`,
@@ -201,6 +203,7 @@ export default class FcDeployComponent {
       resolvedFunctionConf,
       resolvedTriggerConfs,
     );
+    console.log(207);
 
     if (needDeployTrigger && needDeployFunction && needDeployService) {
       // 部署所有资源，则复用传入的 args 执行子组件的 deploy 方法
@@ -283,6 +286,8 @@ export default class FcDeployComponent {
         }
       }
     }
+    console.log(289);
+
     // set stateful config
     if (needDeployService && this.fcService) {
       const { remoteConfig } = await this.fcService.GetRemoteInfo(
@@ -304,6 +309,7 @@ export default class FcDeployComponent {
       this.fcFunction.statefulConfig = remoteConfig;
       this.fcFunction.upgradeStatefulConfig();
     }
+    console.log(312);
     // triggers
     if (needDeployTrigger && !_.isEmpty(this.fcTriggers)) {
       for (let i = 0; i < this.fcTriggers.length; i++) {
@@ -325,6 +331,7 @@ export default class FcDeployComponent {
     }
 
     await this.setStatefulConfig();
+    console.log(334);
 
     // deploy custom domain
     let hasAutoCustomDomainNameInDomains = false;
@@ -344,6 +351,8 @@ export default class FcDeployComponent {
         );
       }
     }
+    console.log(354);
+
     if (!_.isEmpty(resolvedCustomDomainConfs)) {
       const profileOfFcDomain = replaceProjectName(
         this.serverlessProfile,
@@ -372,6 +381,8 @@ export default class FcDeployComponent {
         await fcDoaminComponentIns.deploy(fcDomainComponentInputs);
       }
     }
+    console.log(384);
+
     // remove zipped code
     if (!_.isEmpty(resolvedFunctionConf) && needDeployFunction) {
       await this.fcFunction.removeZipCode(resolvedFunctionConf?.codeUri);
@@ -415,6 +426,8 @@ export default class FcDeployComponent {
         }),
       });
     }
+    console.log(429);
+
     if (!_.isEmpty(resolvedCustomDomainConfs) && needDeployDomain) {
       for (let i = 0; i < resolvedCustomDomainConfs.length; i++) {
         if (!hasHttpPrefix(resolvedCustomDomainConfs[i].domainName)) {
