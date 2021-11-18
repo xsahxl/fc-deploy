@@ -127,10 +127,9 @@ export default abstract class FcDeploy<T> extends IInputsBase {
       functionName,
       triggerName ? [triggerName] : null,
     );
+    console.log('xxxxx');
 
     const fcInfoComponentInputs: any = await fcInfo.genComponentInputs('fc-info');
-
-    const fcInfoComponentIns: any = await core.load('devsapp/fc-info@dev');
 
     this.logger.info(StdoutFormatter.stdoutFormatter.check(type, resourceName));
 
@@ -140,14 +139,7 @@ export default abstract class FcDeploy<T> extends IInputsBase {
 
       console.log(JSON.stringify(fcInfoComponentInputs, null, 2));
 
-      const info: any = await fcInfoComponentIns.info(fcInfoComponentInputs);
       console.log(149);
-
-      if (type === 'trigger') {
-        remoteConfig = info?.triggers[0];
-      } else {
-        remoteConfig = info[type];
-      }
     } catch (e) {
       if (!e.toString().includes('NotFoundError')) {
         this.logger.warn(
