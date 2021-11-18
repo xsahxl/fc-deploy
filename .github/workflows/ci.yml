@@ -3,7 +3,7 @@ name: Serverless Devs Project CI
 on:
   push:
     branches:
-      - master
+      - support-core-getRootHome
   pull_request:
     branches:
       - master
