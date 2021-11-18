@@ -31,14 +31,14 @@ export async function setupIntegrationTestEnv(
   console.log('cwd', cwd);
   console.log('templateFile', templateFile);
 
-  await core.setKnownCredential(
-    {
-      AccountID: accoundId,
-      AccessKeyID: accessKeyId,
-      AccessKeySecret: accessKetSecret,
-    },
-    access,
-  );
+  // await core.setKnownCredential(
+  //   {
+  //     AccountID: accoundId,
+  //     AccessKeyID: accessKeyId,
+  //     AccessKeySecret: accessKetSecret,
+  //   },
+  //   access,
+  // );
   console.log('end====');
 
   process.chdir(cwd);
