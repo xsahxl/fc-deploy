@@ -1,4 +1,3 @@
-import FcDeployComponent from '../src/index';
 import dotenv from 'dotenv';
 import { IInputs } from '../src/interface';
 import * as path from 'path';
