@@ -59,15 +59,15 @@ describe('Integration::deploy', () => {
     );
   });
 
-  afterAll(async () => {
-    await cleanupIntegrationTestEnv(ACCESS, MOCK_PROJECT_PATH);
-  });
+  // afterAll(async () => {
+  //   await cleanupIntegrationTestEnv(ACCESS, MOCK_PROJECT_PATH);
+  // });
 
-  afterEach(async () => {
-    await fs.remove(path.join(MOCK_PROJECT_PATH, '.s'));
-  });
+  // afterEach(async () => {
+  //   await fs.remove(path.join(MOCK_PROJECT_PATH, '.s'));
+  // });
 
-  it('deploy service with http trigger', async () => {
+  it('deploy service with http trigger xxx', async () => {
     expect(123).toBe(123);
   });
 });
